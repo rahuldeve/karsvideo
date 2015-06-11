@@ -31,3 +31,37 @@
 
 # "temporary" build files
 /target
+
+#######################################################################################
+######################################################################################
+
+
+
+# web application files
+Frontend/web-app/WEB-INF/classes
+
+# default HSQL database files for production mode
+Frontend/prodDb.*
+
+# general HSQL database files
+*Db.properties
+*Db.script
+
+# logs
+Frontend/stacktrace.log
+Frontend/test/reports
+Frontend/logs
+
+# project release file
+Frontend/*.war
+
+# plugin release files
+Frontend/*.zip
+Frontend/plugin.xml
+
+# older plugin install locations
+Frontend/plugins
+Frontend/web-app/plugins
+
+# "temporary" build files
+Frontend/target
