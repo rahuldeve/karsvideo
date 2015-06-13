@@ -1,5 +1,8 @@
 package frontend
 
+import grails.converters.JSON
+import org.codehaus.groovy.grails.web.json.JSONArray
+
 class SearchController {
 
 
@@ -12,6 +15,9 @@ class SearchController {
 
     def index() {
 
+        //render(view: 'result')
+        redirect(action: "query")
+
     }
 
     def query() {
@@ -20,7 +26,24 @@ class SearchController {
 
         //send query to RESTful service and get result as json
         def response =restClient.get("http://localhost:4567/index?query=" + query)
-        def json = response.json
+        List results = response.json as List
+        //results instanceof List
+
+        //replace every entry in the list into video domain object and return list
+
+        results=results.collect {
+            new Video(it)
+
+
+        }
+        
+
+
+
+        render(view: 'result', model: [results:results])
+
+
+
 
 
 
