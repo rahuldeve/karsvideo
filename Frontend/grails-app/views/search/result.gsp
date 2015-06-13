@@ -38,6 +38,7 @@
     </div>
 
     <div class="layout-ad"></div>
+    
 </div>
 
 <footer class="layout-footer"><h3>Footer</h3></footer>

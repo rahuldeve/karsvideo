@@ -2,14 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9b3aae1c-647f-4e74-b1ea-1895a8a99cee" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../Index/out/production/Index/com/company/Index.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../Index/out/production/Index/com/company/IndexService.class" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Index/out/production/Index/com/company/Main.class" afterPath="$PROJECT_DIR$/../Index/out/production/Index/com/company/Main.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Index/src/com/company/Indexer/IndexService.java" afterPath="$PROJECT_DIR$/../Index/src/com/company/Indexer/IndexService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Index/src/com/company/Main.java" afterPath="$PROJECT_DIR$/../Index/src/com/company/Main.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/controllers/frontend/SearchController.groovy" afterPath="$PROJECT_DIR$/grails-app/controllers/frontend/SearchController.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Index/.idea/workspace.xml" afterPath="$PROJECT_DIR$/../Index/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/views/search/result.gsp" afterPath="$PROJECT_DIR$/grails-app/views/search/result.gsp" />
     </list>
     <ignored path="Frontend.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -51,8 +44,8 @@
       <file leaf-file-name="result.gsp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/grails-app/views/search/result.gsp">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.49438202" vertical-offset="438" max-vertical-offset="972">
-              <caret line="39" column="33" selection-start-line="39" selection-start-column="33" selection-end-line="39" selection-end-column="33" />
+            <state vertical-scroll-proportion="0.5280899" vertical-offset="438" max-vertical-offset="990">
+              <caret line="40" column="4" selection-start-line="40" selection-start-column="4" selection-end-line="40" selection-end-column="4" />
               <folding />
             </state>
           </provider>
@@ -614,12 +607,12 @@
       <workItem from="1433936912475" duration="1108000" />
       <workItem from="1434002783538" duration="4577000" />
       <workItem from="1434177544019" duration="1817000" />
-      <workItem from="1434179998384" duration="8171000" />
+      <workItem from="1434179998384" duration="8709000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="18667000" />
+    <option name="totallyTimeSpent" value="19205000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1910" height="1035" extended-state="4" />
@@ -969,8 +962,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/grails-app/views/search/result.gsp">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.49438202" vertical-offset="438" max-vertical-offset="972">
-          <caret line="39" column="33" selection-start-line="39" selection-start-column="33" selection-end-line="39" selection-end-column="33" />
+        <state vertical-scroll-proportion="0.5280899" vertical-offset="438" max-vertical-offset="990">
+          <caret line="40" column="4" selection-start-line="40" selection-start-column="4" selection-end-line="40" selection-end-column="4" />
           <folding />
         </state>
       </provider>
