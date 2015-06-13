@@ -5,5 +5,7 @@ package com.company.Indexer;
  */
 public class IndexService {
 
+    Index index;
+
 
 }
