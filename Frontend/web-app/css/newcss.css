@@ -7,6 +7,7 @@
 body { 
     font-family: sans-serif;
     height:100%;
+    background: #232323;
     
 }
 
@@ -22,7 +23,8 @@ body {
 
 .layout-header,
 .layout-footer {
-  flex: none; /* 2 */
+    height:100px;
+    flex: none; /* 2 */
 }
 
 .layout-body {
@@ -73,17 +75,20 @@ display:block;
 
 
 
-.item{}
+.item{
+
+}
 
 .item-content {
   width: inherit;
   height: inherit;
+    border-radius: 2px;
 }
 
 .item-content {
   //width: 100px;
   //height: 100px;
-  background: hsla(201,95%,52%,0.65);
+  background: hsla(202,95%,52%,0.65);
   
   //border: 4px solid #333;
   //border-color: hsla(0, 0%, 100%, 0.4);
@@ -113,7 +118,7 @@ display:block;
 }
 
 .item.is-expanded .item-content {
-  background: hsla(132,65%,57%,0.65);
+  background: hsla(105,65%,57%,0.65);
 }
 
 
@@ -145,3 +150,103 @@ display:block;
 /*------------------------------------------------------------------------------------------------*/
 
 
+.container{
+    height:100%;
+    display:flex;
+    flex-warp:wrap;
+    flex-direction:column;
+    pointer-events: none;
+    border:10px;
+
+}
+
+.expand{
+}
+
+.container-first-row{
+    display:flex;
+    width:100%;
+}
+
+.container-second-row{
+}
+
+
+.container-third-row{
+    display:none;
+}
+
+
+
+
+
+
+
+.rel_score{
+    pointer-events: none;
+    flex-grow:1;
+}
+
+.vid_details{
+    display: none;
+    pointer-events: none;
+}
+
+.vid_keywords{
+    display:none;
+}
+
+.vid_img{
+    display:none;
+}
+
+
+.segbar{
+    display: none;
+    width:100%;
+    height:100%;
+}
+
+.seg{
+    background-color: darkgreen;
+    margin: 10px;
+    width:100%;
+    height:20px;
+
+}
+
+
+
+.rel_score.expand{
+    display:inline;
+    order:2;
+    flex-grow:1;
+}
+
+.vid_details.expand{
+    display: inline;
+    flex-grow:1;
+}
+
+.vid_img.expand{
+    display: inline;
+    flex-grow:1;
+    order:-1;
+
+}
+
+.vid_keywords.expand{
+    display:inline;
+    flex-grow:1;
+    order:3;
+}
+
+.segbar.expand{
+    display:flex;
+    justify-content:space-around;
+    align-items:flex-end;
+}
+
+.container-third-row.expand{
+    display:inline;
+}
