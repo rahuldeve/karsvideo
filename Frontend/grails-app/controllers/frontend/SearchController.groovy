@@ -16,7 +16,7 @@ class SearchController {
     def index() {
 
         //render(view: 'result')
-        redirect(action: "query")
+        //redirect(action: "query")
 
     }
 
