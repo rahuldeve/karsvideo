@@ -2,6 +2,7 @@ package frontend
 
 import grails.converters.JSON
 import org.codehaus.groovy.grails.web.json.JSONArray
+import org.codehaus.groovy.grails.web.json.JSONObject
 
 class SearchController {
 
@@ -16,7 +17,10 @@ class SearchController {
     def index() {
 
         //render(view: 'result')
-        //redirect(action: "query")
+        redirect(action: "query")
+
+
+        //print Video.get(0)
 
     }
 
@@ -26,21 +30,62 @@ class SearchController {
 
         //send query to RESTful service and get result as json
         def response =restClient.get("http://localhost:4567/index?query=" + query)
+        //print response.json
+
+        JSONArray temp = response.json
+        //print temp.get("segments")
+
+
         List results = response.json as List
-        //results instanceof List
 
-        //replace every entry in the list into video domain object and return list
+        def thelist = results.collect{ JSONObject vidobject ->
 
-        results=results.collect {
-            new Video(it)
+            def seglist=[]
 
+            vidobject.segments.each{
+
+                JSONObject segobject ->
+
+                    Segment segment = new Segment(
+
+                            segid: segobject.segid,
+                            start: segobject.start,
+                            end: segobject.end,
+                            script: segobject.script,
+                            keyphrases: segobject.keyphrases
+                    )
+
+
+                    seglist.add(segment)
+            }
+
+            Video video = new Video(
+                                        name:vidobject.name,
+                                        location: vidobject.location,
+                                        relevance: vidobject.relevance,
+                                        relevance_group: vidobject.relevance_group
+                                    )
+
+
+            seglist.each {Segment segment ->
+                video.addToSegments(segment.save(failOnError: true))
+            }
+
+
+            video.save(failOnError: true)
 
         }
+
+
+
+
+
         
 
 
-
+        //print results
         render(view: 'result', model: [results:results])
+
 
 
 

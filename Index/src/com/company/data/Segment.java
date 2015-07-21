@@ -7,9 +7,21 @@ import java.util.List;
  */
 public class Segment {
 
-    String id;
-    float start;
-    float end;
+    String segid;
+    double start;
+    double end;
     List<String> keyphrases;
     String script;
+
+    public Segment(String segid, float start, float end, List<String> keyparases, String script){
+
+        this.segid = segid;
+        this.start = start;
+        this.end = end;
+        this.keyphrases = keyparases;
+        this.script = script;
+    }
+
+
+
 }
