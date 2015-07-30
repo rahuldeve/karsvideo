@@ -1,4 +1,4 @@
-package com.company.data;
+package com.company.Data;
 
 import java.util.List;
 
@@ -13,6 +13,11 @@ public class Video {
     String relevance_group;
     List<String> keyphrases;
     List<Segment> segments;
+
+    public Video()
+    {
+
+    }
 
 
 

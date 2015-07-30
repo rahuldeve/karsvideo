@@ -1,19 +1,18 @@
-package com.company.db;
+package com.company.Database;
 
 
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import org.bson.Document;
 
 /**
  * Created by rahul on 18/06/15.
  */
-public class Mongo {
+public class Db {
 
     public MongoClient mongoClient;
     public MongoDatabase mongoDatabase;
-    public MongoCollection collection;
-
 
 
 
@@ -39,13 +38,20 @@ public class Mongo {
 
 
 
-    public void getCollection(){
+    public MongoCollection getCollection(String collectionname){
+
+        MongoCollection<Document> collection = mongoDatabase.getCollection(collectionname);
+        return collection;
 
     }
 
     public void insert(){}
 
-    public void query(){}
+    public void query(String query){
+
+
+
+    }
 
 
 

@@ -1,8 +1,8 @@
 package com.company;
 import static spark.Spark.*;
 
-import com.company.data.Segment;
-import com.company.data.Video;
+import com.company.Data.Segment;
+import com.company.Data.Video;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -32,7 +32,7 @@ public class Main {
 
                     for (int j = 0; j < 5; ++j) {
 
-                        seglist.add(new Segment("seg0", 1, 5, Arrays.asList("a", "b", "c"), "them scripts"));
+                        seglist.add(new Segment("seg0"+i+j, 1, 5, Arrays.asList("a", "b", "c"), "them scripts"));
 
                     }
 
@@ -46,7 +46,7 @@ public class Main {
 
                     for (int j = 0; j < 5; ++j) {
 
-                        seglist.add(new Segment("seg0", 1, 5, Arrays.asList("a", "b", "c"), "them scripts"));
+                        seglist.add(new Segment("seg0"+i+j, 1, 5, Arrays.asList("a", "b", "c"), "them scripts"));
 
                     }
 
@@ -60,7 +60,7 @@ public class Main {
 
                     for (int j = 0; j < 5; ++j) {
 
-                        seglist.add(new Segment("seg0", 1, 5, Arrays.asList("a", "b", "c"), "them scripts"));
+                        seglist.add(new Segment("seg0"+i+j, 1, 5, Arrays.asList("a", "b", "c"), "them scripts"));
 
                     }
 

@@ -1,4 +1,4 @@
-package com.company.data;
+package com.company.Data;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ public class Segment {
     List<String> keyphrases;
     String script;
 
-    public Segment(String segid, float start, float end, List<String> keyparases, String script){
+    public Segment(String segid, double start, double end, List<String> keyparases, String script){
 
         this.segid = segid;
         this.start = start;
