@@ -3,8 +3,8 @@ package frontend
 class Segment {
 
     String segid;
-    float start;
-    float end;
+    double start;
+    double end;
     String script;
 
 
