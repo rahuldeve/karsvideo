@@ -10,7 +10,8 @@ $( function() {
             var item = target.attr('id');
             console.log(item+'-text');
 
-            $('.seg-details').removeClass('visible');
+
+            target.parent().parent().find(".seg-details").removeClass('visible');
 
             $('#' + item+'-details').addClass('visible');
         });
