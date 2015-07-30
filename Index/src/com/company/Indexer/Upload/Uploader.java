@@ -69,6 +69,12 @@ public class Uploader {
                 fileMap.putIfAbsent("statfile", file);
             }
 
+            //check for seg file
+            if (file.getName().matches(".*seg")) {
+                hasStatfile = true;
+                fileMap.putIfAbsent("segfile", file);
+            }
+
 
         }
 

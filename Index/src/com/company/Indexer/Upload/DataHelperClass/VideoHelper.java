@@ -12,7 +12,7 @@ public class VideoHelper {
     public String videoid;
     public String name;
     public String location;
-    public List<String> keyphrases;
+    public List<String> keyphrases;     //is this necessary?
     public List<SegmentHelper> segments;
 
 }

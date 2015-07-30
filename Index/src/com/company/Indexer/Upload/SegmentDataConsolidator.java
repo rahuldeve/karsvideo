@@ -11,8 +11,7 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -73,10 +72,12 @@ public class SegmentDataConsolidator {
             getSegmentBounds(temp, xmlSegmentNode);
             getSegmentScript(temp, xmlSegmentNode);
 
-
-
-
+            segmentHelperList.add(temp);
         }
+
+        getSegmentKeyphrases();
+
+
 
     }
 
@@ -98,9 +99,57 @@ public class SegmentDataConsolidator {
         temp.script = xmlSegmentNode.getTextContent();
     }
 
+
     public void getSegmentKeyphrases(){
 
         //open the .seg file and read the contents
+        File segmentFile = fileMap.get("segfile");
+
+
+        // see java try-with-resources feature
+        try (BufferedReader reader = new BufferedReader(new FileReader(segmentFile))) {
+
+            String currentLine;
+
+            while((currentLine = reader.readLine()) != null){
+
+                if(currentLine.equals("begin"))
+                    continue;
+
+                else if(currentLine.matches("[0-9]*:[0-9]*"))
+                    continue;
+
+                else if(currentLine.equals("end"))
+                    continue;
+
+                else{
+
+                    String keyphrase = currentLine.split(":")[0];
+                    double start = Double.parseDouble(currentLine.split(":")[1].split("-")[0]);
+                    double stop = Double.parseDouble(currentLine.split(":")[1].split("-")[1]);
+
+
+                    for(SegmentHelper temp : segmentHelperList){
+
+                        if(temp.isContainedWithin(start, stop))
+                            temp.keyphrases.add(keyphrase);
+                    }
+
+
+
+                }
+
+            }
+
+
+
+
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 

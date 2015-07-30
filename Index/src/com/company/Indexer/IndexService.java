@@ -25,32 +25,51 @@ public class IndexService {
 
     public IndexService(){
 
+        //load inverted index from file
+
         database = new Db();
         database.connect("localhost","indexdb");
 
+        /*
         segmentCollection = database.getCollection("segments");
         videoCollection = database.getCollection("videos");
+        */
+
+        videoCollection = database.getCollection("videos");
+
+        if(videoCollection.count()==0){
+
+            //database created first time
+
+            //create index for video and segment
+            videoCollection.createIndex(new Document("videoid", 1));
+            videoCollection.createIndex(new Document("segments.segid",1));
+
+
+            //invoke Upload?
+
+        }
 
     }
 
 
     public void query(){}
+
     public void indexQuery(String query){
         //perform search using any search algo to get relevant segids
         //use index
     }
 
 
-
+    //Invalidated
+    //new database schema
+/*
     public Map databaseQuery(String query)
     {
 
-
-
-
-
         List<String> relevantSegID = new ArrayList<>();
         List<Document> retrivedSegments = new ArrayList<>();
+
 
         //retrive segids from database along with video details
         for(String segid : relevantSegID)
@@ -120,7 +139,7 @@ public class IndexService {
 
     }
 
-    public List parseToDataObject(Map<Document,List<Document>> videoSegmentMap){
+    public List parseToDataObject(Map<Document, List<Document>> videoSegmentMap){
 
         List<Video> result = new ArrayList<>();
 
@@ -170,6 +189,7 @@ public class IndexService {
 
         return result;
     }
+    */
 
 
 }
