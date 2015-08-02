@@ -1,7 +1,7 @@
-package com.company.Indexer.Upload;
+package com.company.Index.Upload;
 
 
-import com.company.Indexer.Upload.DataHelperClass.SegmentHelper;
+import com.company.Index.Upload.DataHelperClass.SegmentHelper;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -59,7 +59,7 @@ public class SegmentDataConsolidator {
 
 
 
-    public void collectSegmentData(){
+    public List<SegmentHelper> collectSegmentData(){
 
         for(int i=0; i<xmlSegmentNodes.getLength(); ++i){
 
@@ -76,6 +76,7 @@ public class SegmentDataConsolidator {
         }
 
         getSegmentKeyphrases();
+        return segmentHelperList;
 
 
 
@@ -116,7 +117,7 @@ public class SegmentDataConsolidator {
                 if(currentLine.equals("begin"))
                     continue;
 
-                else if(currentLine.matches("[0-9]*:[0-9]*"))
+                else if(currentLine.matches("[0-9]+:[0-9]+"))
                     continue;
 
                 else if(currentLine.equals("end"))
@@ -151,11 +152,6 @@ public class SegmentDataConsolidator {
             e.printStackTrace();
         }
 
-    }
-
-
-    public List<SegmentHelper> getSegmentList(){
-        return segmentHelperList;
     }
 
 }

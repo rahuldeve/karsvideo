@@ -1,6 +1,6 @@
-package com.company.Indexer.Upload;
+package com.company.Index.Upload;
 
-import com.company.Indexer.Upload.DataHelperClass.VideoHelper;
+import com.company.Index.Upload.DataHelperClass.VideoHelper;
 
 import java.io.File;
 import java.util.Map;
@@ -19,7 +19,7 @@ public class VideoDataConsolidator {
 
     }
 
-    public void collectVideoData(){
+    public VideoHelper collectVideoData(){
 
 
         VideoHelper temp = new VideoHelper();
@@ -28,7 +28,9 @@ public class VideoDataConsolidator {
         getVideoID(temp);
 
         SegmentDataConsolidator segmentDataConsolidator = new SegmentDataConsolidator(fileMap, temp.videoid);
-        temp.segments = segmentDataConsolidator.getSegmentList();
+        temp.segments = segmentDataConsolidator.collectSegmentData();
+
+        return temp;
 
 
 
@@ -44,6 +46,10 @@ public class VideoDataConsolidator {
 
     public void getLocation(VideoHelper temp){
         //send the video file to webserver and get URL
+
+        //copy to apache document folder
+        //first make sure the user has enough permissions to write to folder
+        //return url
     }
 
 

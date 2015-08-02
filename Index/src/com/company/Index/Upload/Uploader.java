@@ -1,4 +1,9 @@
-package com.company.Indexer.Upload;
+package com.company.Index.Upload;
+
+
+import com.company.Index.Upload.DataHelperClass.VideoHelper;
+import com.mongodb.client.MongoCollection;
+import org.bson.Document;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -12,17 +17,16 @@ public class Uploader {
 
     File uploadFolderPath;
     Map<String,File> fileMap;
+    MongoCollection<Document> videoCollection;
 
-    String videoName;
 
-    public Uploader(){
+    public Uploader(MongoCollection<Document> videoCollection){
+
         this.fileMap = new HashMap<>();
-    }
-
-
-    public void add(){
+        this.videoCollection = videoCollection;
 
     }
+
 
     public boolean checkFiles(String path) {
 
@@ -79,6 +83,25 @@ public class Uploader {
         }
 
         return hasScript && hasXML && hasStatfile && hasVideo;
+    }
+
+
+    public void add(String path){
+
+        if(!checkFiles(path)){
+            System.out.println("files not found !!!!!!!!!!!!");
+        }else{
+
+            VideoDataConsolidator videoDataConsolidator = new VideoDataConsolidator(fileMap);
+            VideoHelper video = videoDataConsolidator.collectVideoData();
+
+            //add to database
+
+
+
+
+        }
+
     }
 
 

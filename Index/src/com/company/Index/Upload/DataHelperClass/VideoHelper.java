@@ -1,4 +1,4 @@
-package com.company.Indexer.Upload.DataHelperClass;
+package com.company.Index.Upload.DataHelperClass;
 
 
 
