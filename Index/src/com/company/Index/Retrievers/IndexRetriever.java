@@ -1,4 +1,4 @@
-package com.company.Index.Retrieve;
+package com.company.Index.Retrievers;
 
 /**
  * Created by rahul on 3/08/15.
