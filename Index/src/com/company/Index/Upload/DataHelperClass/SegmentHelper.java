@@ -1,5 +1,6 @@
 package com.company.Index.Upload.DataHelperClass;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -13,6 +14,10 @@ public class SegmentHelper {
     public double stop;
     public List<String> keyphrases;
     public String script;
+
+    public SegmentHelper(){
+        this.keyphrases = new ArrayList<>();
+    }
 
 
     public boolean isContainedWithin(double a, double b){

@@ -2,6 +2,7 @@ package com.company.Index.Upload.DataHelperClass;
 
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -14,5 +15,9 @@ public class VideoHelper {
     public String location;
     public List<String> keyphrases;     //is this necessary?
     public List<SegmentHelper> segments;
+
+    public VideoHelper(){
+        this.keyphrases = new ArrayList<>();
+    }
 
 }
