@@ -1,23 +1,30 @@
 package com.company.Index;
 
-import com.company.Index.Retrieve.DatabaseRetriever;
-import com.company.Index.Retrieve.IndexRetriever;
+import com.company.Index.Retrievers.DatabaseRetriever;
+import com.company.Index.Retrievers.IndexRetriever;
 import com.company.Index.Upload.BulkUploader;
+import com.company.Index.Upload.DataHelperClass.VideoHelper;
 import com.company.Index.Upload.Uploader;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class IndexService {
+
+    MongoClient mongoClient;
+    MongoDatabase ascistDatabase;
 
 
     Uploader videoUploader;
     BulkUploader bulkVideoUploader;
 
     IndexRetriever invertedIndexRetriever;
-    DatabaseRetriever videoDatabaseRetriver;
+    DatabaseRetriever videoDatabaseRetriever;
 
 
 
@@ -25,25 +32,27 @@ public class IndexService {
 
 
 
-    public IndexService(){
+    public IndexService(){;
 
         //load inverted index from file
 
 
 
         //establish connection to mongo and get database
-        MongoClient mongoClient = new MongoClient();
-        MongoDatabase ascistDatabase = mongoClient.getDatabase("ascist");
+        this.mongoClient = new MongoClient();
+        this.ascistDatabase = mongoClient.getDatabase("ascist");
 
 
-        //retrieve collection
+        //retrieve collection from mongo
         MongoCollection<Document> videoCollection = ascistDatabase.getCollection("videos");
 
 
 
         //initialise uploaders and retrivers
-        Uploader videoUploader = new Uploader(videoCollection);
-        BulkUploader bulkVideoUploader = new BulkUploader(videoCollection);
+        this.videoUploader = new Uploader(videoCollection);
+        this.bulkVideoUploader = new BulkUploader(videoCollection);
+
+        this.videoDatabaseRetriever = new DatabaseRetriever(videoCollection);
 
 
 
@@ -72,6 +81,30 @@ public class IndexService {
     public void indexQuery(String query){
         //perform search using any search algo to get relevant segids
         //use index
+
+        List<String> retrievedSegIDList = new ArrayList<>();
+        retrievedSegIDList.add(query);
+
+        //use database retriever to get videos
+        //System.out.print(retrievedSegIDList.size());
+        List<VideoHelper> temp = videoDatabaseRetriever.get(retrievedSegIDList);
+
+        for(VideoHelper a : temp){
+            System.out.print(a.segments.iterator().next().keyphrases);
+        }
+    }
+
+
+    public void uploadVideo(String path){
+        videoUploader.add(path);
+    }
+
+    public void bulkUploadVideos(String baseFolderPath){
+
+    }
+
+    public void close(){
+        mongoClient.close();
     }
 
 
