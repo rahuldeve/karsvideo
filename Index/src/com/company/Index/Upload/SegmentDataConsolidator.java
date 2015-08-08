@@ -5,6 +5,8 @@ import com.company.Index.Upload.DataHelperClass.SegmentHelper;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.EntityResolver;
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 
@@ -37,12 +39,20 @@ public class SegmentDataConsolidator {
         DocumentBuilderFactory factory=DocumentBuilderFactory.newInstance();
         factory.setIgnoringComments(true);
         factory.setIgnoringElementContentWhitespace(true);
-        factory.setValidating(true);
+        factory.setValidating(false);
 
 
         try {
 
             DocumentBuilder dBuilder = factory.newDocumentBuilder();
+
+            dBuilder.setEntityResolver(new EntityResolver() {
+                @Override
+                public InputSource resolveEntity(String s, String s1) throws SAXException, IOException {
+                    return new InputSource(new StringReader(""));
+                }
+            });
+
             xml = dBuilder.parse(fileMap.get("xml"));
             xmlSegmentNodes = xml.getElementsByTagName("p");
 
@@ -92,8 +102,14 @@ public class SegmentDataConsolidator {
     }
 
     public void getSegmentBounds(SegmentHelper temp, Node xmlSegmentNode){
-        temp.start =  Double.parseDouble(xmlSegmentNode.getAttributes().getNamedItem("start").getNodeValue());
+
+        //System.out.print(xmlSegmentNode.getAttributes().getNamedItem(""));
+
+        temp.start =  Double.parseDouble(xmlSegmentNode.getAttributes().getNamedItem("begin").getNodeValue());
         temp.stop =  Double.parseDouble(xmlSegmentNode.getAttributes().getNamedItem("end").getNodeValue());
+
+
+
     }
 
     public void getSegmentScript(SegmentHelper temp, Node xmlSegmentNode){
@@ -132,8 +148,13 @@ public class SegmentDataConsolidator {
 
                     for(SegmentHelper temp : segmentHelperList){
 
-                        if(temp.isContainedWithin(start, stop))
+                        List<String> extractedKeyphrases = new ArrayList<>();
+
+                        if(temp.isContainedWithin(start, stop)) {
+
                             temp.keyphrases.add(keyphrase);
+                            //System.out.print(temp);
+                        }
                     }
 
 
