@@ -1,13 +1,16 @@
 package com.company.Index.Upload;
 
 
+import com.company.Index.Upload.DataHelperClass.SegmentHelper;
 import com.company.Index.Upload.DataHelperClass.VideoHelper;
 import com.mongodb.client.MongoCollection;
 import org.bson.Document;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -97,8 +100,39 @@ public class Uploader {
 
             //add to database
 
+            List<Document> segmentsAsDocumentsList = new ArrayList<>();
+
+            for(SegmentHelper segment : video.segments){
+
+                Document segmentDocument = new Document("segid", segment.segid)
+                        .append("videoid",segment.segid)
+                        .append("start", segment.start)
+                        .append("stop", segment.stop)
+                        .append("keyphrases", segment.keyphrases)
+                        .append("script", segment.script);
+
+                segmentsAsDocumentsList.add(segmentDocument);
+
+            }
 
 
+            Document videoDoc = new Document("videoid", video.videoid)
+                    .append("name", video.name)
+                    .append("location", video.location)
+                    .append("keyphrases", video.keyphrases)
+                    .append("segments", segmentsAsDocumentsList);
+
+            /*
+            videoDoc.append("videoid", video.videoid);
+            videoDoc.append("name", video.name);
+            videoDoc.append("location", video.location);
+            videoDoc.append("keyphrases", video.keyphrases);
+            videoDoc.append("segments", video.segments);
+            */
+
+            videoCollection.insertOne(videoDoc);
+
+            System.out.print("one video inserted");
 
         }
 
