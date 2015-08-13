@@ -17,6 +17,11 @@ class SearchController {
     def index() {
 
         //render(view: 'result')
+        if(Video.count > 0){
+            Video.findAll().each {it.delete(flush: true)}
+
+        }
+
         redirect(action: "query")
 
 
@@ -36,47 +41,54 @@ class SearchController {
         //print temp.get("segments")
 
 
-        List results = response.json as List
 
-        def thelist = results.collect{ JSONObject vidobject ->
+        List jsonList = response.json as List
 
-            def seglist=[]
+        def parsedList = jsonList.collect{ JSONObject resultObject ->
 
-            vidobject.segments.each{
-
-                JSONObject segobject ->
-
-                    Segment segment = new Segment(
-
-                            segid: segobject.segid,
-                            start: segobject.start,
-                            end: segobject.end,
-                            script: segobject.script,
-                            keyphrases: segobject.keyphrases
-                    )
-
-
-                    seglist.add(segment)
-            }
+            def videoObject = resultObject.video
 
             Video video = new Video(
-                                        name:vidobject.name,
-                                        location: vidobject.location,
-                                        relevance: vidobject.relevance,
-                                        relevance_group: vidobject.relevance_group
-                                    )
+
+                    videoid: videoObject.videoid,
+                    name: videoObject.name,
+                    location: videoObject.location,
+                    relevance: resultObject.relevance,
+                    relevance_group: resultObject.relevance_group,
 
 
-            seglist.each {Segment segment ->
-                video.addToSegments(segment.save(failOnError: true))
+            )
+
+
+            def segmentList =[]
+
+
+            videoObject.segments.each{ JSONObject segmentObject ->
+
+                Segment segment = new Segment(
+
+                        segid: segmentObject.segid,
+                        videoid: segmentObject.videoid,
+                        start: segmentObject.start,
+                        end: segmentObject.stop,
+                        script: segmentObject.script,
+                        keyphrases: segmentObject.keyphrases
+
+                )
+
+                segmentList.add(segment)
+
             }
 
 
-            video.save(failOnError: true)
+            segmentList.each {Segment segment ->
+                video.addToSegments(segment.save(failOnError: true));
+            }
 
+            video.save(failOnError: true, flush: true)
         }
 
-
+        Video.list().each { print it.id}
 
 
 
@@ -84,7 +96,7 @@ class SearchController {
 
 
         //print results
-        render(view: 'result', model: [results:results])
+        render(view: 'result', model: [results:parsedList])
 
 
 

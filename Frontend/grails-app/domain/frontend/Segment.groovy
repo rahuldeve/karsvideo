@@ -3,6 +3,7 @@ package frontend
 class Segment {
 
     String segid;
+    String videoid;
     double start;
     double end;
     String script;

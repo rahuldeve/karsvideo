@@ -2,6 +2,7 @@ package frontend
 
 class Video {
 
+    String videoid;
     String name
     String location
     //String videoDetails
