@@ -72,7 +72,7 @@
                                     <div id="${segment.segid}-details" class="seg-details">
 
                                         <div class="seg-transcript">
-                                            <p>${result.script}</p>
+                                            <p>${segment.script}</p>
                                         </div>
 
                                         <div class="seg-keywords">
