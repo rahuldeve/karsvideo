@@ -1,17 +1,21 @@
 package com.company.Index;
 
-import com.company.Index.Retrievers.DatabaseRetriever;
-import com.company.Index.Retrievers.IndexRetriever;
+import com.company.Index.Retriever.DatabaseRetriever;
+import com.company.Index.Retriever.IndexRetriever;
 import com.company.Index.Upload.BulkUploader;
 import com.company.Index.Upload.DataHelperClass.VideoHelper;
 import com.company.Index.Upload.Uploader;
+import com.company.ResultData.DataParser;
+import com.company.ResultData.ResultObject;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class IndexService {
@@ -78,7 +82,7 @@ public class IndexService {
     }
 
 
-    public void indexQuery(String query){
+    public List<ResultObject> indexQuery(String query){
         //perform search using any search algo to get relevant segids
         //use index
 
@@ -87,11 +91,32 @@ public class IndexService {
 
         //use database retriever to get videos
         //System.out.print(retrievedSegIDList.size());
-        List<VideoHelper> temp = videoDatabaseRetriever.get(retrievedSegIDList);
+        List<VideoHelper> retrievedResults = videoDatabaseRetriever.get(retrievedSegIDList);
 
+        //get a segid relevance map
+        Map<String,Double> segidRelevanceScores = new HashMap<>();
+
+
+
+        //convert to result message
+        List<ResultObject> parsedList = DataParser.parse(retrievedResults, segidRelevanceScores);
+
+
+
+
+
+        /*
         for(VideoHelper a : temp){
             System.out.print(a.segments.iterator().next().keyphrases);
         }
+
+        VideoHelper asd = new ResultVideo();
+        */
+
+        return parsedList;
+
+
+
     }
 
 
@@ -100,6 +125,7 @@ public class IndexService {
     }
 
     public void bulkUploadVideos(String baseFolderPath){
+        bulkVideoUploader.scanFolder(baseFolderPath);
 
     }
 
