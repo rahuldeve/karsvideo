@@ -12,6 +12,10 @@ class Segment {
     static constraints = {
     }
 
+    static mapping = {
+        script sqlType: "text"
+    }
+
     static hasMany = [keyphrases:String]
     static belongsTo = Video
 }
