@@ -1,6 +1,5 @@
 package com.company.ResultData;
 
-import com.company.Index.Upload.DataHelperClass.SegmentHelper;
 import com.company.Index.Upload.DataHelperClass.VideoHelper;
 
 import java.util.Map;
@@ -10,9 +9,9 @@ import java.util.Map;
  */
 public class ResultObject {
 
-    VideoHelper video;
-    double relevance;
-    String relevance_group;
+    public VideoHelper video;
+    public double relevance;
+    public String relevance_group;
 
     Map<String,Double> segidRelevanceScores;
 
@@ -24,11 +23,6 @@ public class ResultObject {
         this.relevance = relevance;
         this.relevance_group =relevance_group;
 
-    }
-
-    public void setRelevance(){
-        relevance = 50;
-        relevance_group = "MR";
     }
 
 

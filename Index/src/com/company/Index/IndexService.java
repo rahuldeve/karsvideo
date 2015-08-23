@@ -13,7 +13,6 @@ import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -27,7 +26,6 @@ public class IndexService {
     Uploader videoUploader;
     BulkUploader bulkVideoUploader;
 
-    IndexRetriever invertedIndexRetriever;
     DatabaseRetriever videoDatabaseRetriever;
 
 
@@ -83,35 +81,21 @@ public class IndexService {
 
 
     public List<ResultObject> indexQuery(String query){
+
         //perform search using any search algo to get relevant segids
-        //use index
+        IndexRetriever indexRetriever = new IndexRetriever();
+        Map<String, Double> segIDRelevanceScore = indexRetriever.queryIndex(query);
 
-        List<String> retrievedSegIDList = new ArrayList<>();
-        retrievedSegIDList.add(query);
+        List<String> retrievedSegIDList = new ArrayList<>(segIDRelevanceScore.keySet());
 
-        //use database retriever to get videos
-        //System.out.print(retrievedSegIDList.size());
+
+        //retrieve results from database
         List<VideoHelper> retrievedResults = videoDatabaseRetriever.get(retrievedSegIDList);
 
-        //get a segid relevance map
-        Map<String,Double> segidRelevanceScores = new HashMap<>();
-
-
+        // can try to do the following steps using streams but will require a lot of refactoring
 
         //convert to result message
-        List<ResultObject> parsedList = DataParser.parse(retrievedResults, segidRelevanceScores);
-
-
-
-
-
-        /*
-        for(VideoHelper a : temp){
-            System.out.print(a.segments.iterator().next().keyphrases);
-        }
-
-        VideoHelper asd = new ResultVideo();
-        */
+        List<ResultObject> parsedList = DataParser.parse(retrievedResults, segIDRelevanceScore);
 
         return parsedList;
 

@@ -1,93 +1,55 @@
 package com.company;
 import static spark.Spark.*;
 
-import com.company.Data.Segment;
-import com.company.Data.Video;
+import com.company.Index.IndexService;
+import com.company.ResultData.ResultObject;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Main {
 
         public static void main(String[] args) {
 
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
+            //List<ResultObject> parsedList = new ArrayList<>();
+            IndexService indexService = new IndexService();
+            //indexService.uploadVideo("/home/rahul/test/videos/24Trees");
+            //indexService.bulkUploadVideos("/home/rahul/test/videos");
 
 
+            List<ResultObject> parsedList = indexService.indexQuery("trees");
 
-            List<Video> results = new ArrayList<>();
-
-
-            for(int i=0;i<10;++i) {
-
-
-
-                if (i * 10 < 30) {
-
-
-                    List<Segment> seglist = new ArrayList<>();
-
-                    for (int j = 0; j < 5; ++j) {
-
-                        seglist.add(new Segment("seg0"+i+j, 1, 5, Arrays.asList("a", "b", "c"), "them scripts"));
-
-                    }
-
-                    results.add(new Video("asd0", "asd1", Arrays.asList("a", "b", "c"), i * 10, "SR", seglist));
-
-                }
-
-
-                else if (i * 10 < 60) {
-                    List<Segment> seglist = new ArrayList<>();
-
-                    for (int j = 0; j < 5; ++j) {
-
-                        seglist.add(new Segment("seg0"+i+j, 1, 5, Arrays.asList("a", "b", "c"), "them scripts"));
-
-                    }
-
-                    results.add(new Video("asd0", "asd1", Arrays.asList("a", "b", "c"), 10 * i, "MR", seglist));
-                }
-
-
-                else {
-
-                    List<Segment> seglist = new ArrayList<>();
-
-                    for (int j = 0; j < 5; ++j) {
-
-                        seglist.add(new Segment("seg0"+i+j, 1, 5, Arrays.asList("a", "b", "c"), "them scripts"));
-
-                    }
-
-                    results.add(new Video("asd0", "asd1", Arrays.asList("a", "b", "c"), 10 * i, "HR", seglist));
-                }
+            for(ResultObject resultObject : parsedList){
+                System.out.println(resultObject.relevance);
             }
 
-            System.out.print(results.size());
+            //indexService.close();
 
 
 
 
 
 
-
-
-
-
-
-
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
 
 
             get("/index", (req, res) ->
 
-                            results, gson::toJson
+                            //indexService.indexQuery(req)
+
+                            indexService.indexQuery(req.queryParams("query")), gson::toJson
             );
+
+
+            get("/bulk", (req, res) -> {
+                indexService.bulkUploadVideos("/home/rahul/test/videos");
+                //res.redirect("asd");
+
+                return "yay";
+            });
 
 
 

@@ -6,8 +6,7 @@ import com.company.Index.Upload.DataHelperClass.VideoHelper;
 import com.mongodb.client.MongoCollection;
 import org.bson.Document;
 
-import java.io.File;
-import java.io.FileFilter;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,13 +24,15 @@ public class Uploader {
 
     public Uploader(MongoCollection<Document> videoCollection){
 
-        this.fileMap = new HashMap<>();
+        //this.fileMap = new HashMap<>();
         this.videoCollection = videoCollection;
 
     }
 
 
     public boolean checkFiles(String path) {
+
+        this.fileMap = new HashMap<>();
 
         boolean hasVideo = false;
         boolean hasXML = false;
@@ -98,43 +99,86 @@ public class Uploader {
             VideoDataConsolidator videoDataConsolidator = new VideoDataConsolidator(fileMap);
             VideoHelper video = videoDataConsolidator.collectVideoData();
 
-            //add to database
+            addToDatabase(video);
+            addToIndex(video);
 
-            List<Document> segmentsAsDocumentsList = new ArrayList<>();
-
-            for(SegmentHelper segment : video.segments){
-
-                Document segmentDocument = new Document("segid", segment.segid)
-                        .append("videoid",segment.segid)
-                        .append("start", segment.start)
-                        .append("stop", segment.stop)
-                        .append("keyphrases", segment.keyphrases)
-                        .append("script", segment.script);
-
-                segmentsAsDocumentsList.add(segmentDocument);
-
-            }
-
-
-            Document videoDoc = new Document("videoid", video.videoid)
-                    .append("name", video.name)
-                    .append("location", video.location)
-                    .append("keyphrases", video.keyphrases)
-                    .append("segments", segmentsAsDocumentsList);
-
-            /*
-            videoDoc.append("videoid", video.videoid);
-            videoDoc.append("name", video.name);
-            videoDoc.append("location", video.location);
-            videoDoc.append("keyphrases", video.keyphrases);
-            videoDoc.append("segments", video.segments);
-            */
-
-            videoCollection.insertOne(videoDoc);
-
-            System.out.print("one video inserted");
+            //System.out.println("video inserted : " + video.videoid);
 
         }
+
+    }
+
+
+    public void addToDatabase(VideoHelper video){
+
+        List<Document> segmentDocumentList = new ArrayList<>();
+
+        for(SegmentHelper segment : video.segments){
+
+            Document segmentDocument = new Document("segid", segment.segid)
+                    .append("videoid",segment.videoid)
+                    .append("start", segment.start)
+                    .append("stop", segment.stop)
+                    .append("keyphrases", segment.keyphrases)
+                    .append("script", segment.script);
+
+            segmentDocumentList.add(segmentDocument);
+
+        }
+
+
+        Document videoDoc = new Document("videoid", video.videoid)
+                .append("name", video.name)
+                .append("location", video.location)
+                .append("keyphrases", video.keyphrases)
+                .append("segments", segmentDocumentList);
+
+
+
+        videoCollection.insertOne(videoDoc);
+
+
+    }
+
+
+
+
+    public void addToIndex(VideoHelper video){
+
+
+        for(SegmentHelper segmentHelper : video.segments){
+
+            String segid = segmentHelper.segid;
+            String script = segmentHelper.script;
+
+            //open corpus.txt file
+            File corpusFile = new File("pythonIndex/bm25/text/corpus.txt");
+
+
+                try {
+
+
+                    if(!corpusFile.exists())
+                        corpusFile.createNewFile();
+
+
+                    //try to change to nio option
+                    BufferedWriter fileWriter = new BufferedWriter(new FileWriter(corpusFile, true));
+                    fileWriter.write("# " + segid);
+                    fileWriter.newLine();
+                    fileWriter.write(script);
+                    fileWriter.newLine();
+                    fileWriter.flush();
+                    fileWriter.close();
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+
+        }
+
+
 
     }
 
