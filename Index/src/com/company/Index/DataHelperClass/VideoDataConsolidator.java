@@ -1,6 +1,7 @@
-package com.company.Index.Upload;
+package com.company.Index.DataHelperClass;
 
-import com.company.Index.Upload.DataHelperClass.VideoHelper;
+import com.company.Index.DataHelperClass.VideoHelper;
+import com.company.Index.Uploader.SegmentDataConsolidator;
 
 import java.io.File;
 import java.io.IOException;

@@ -1,7 +1,7 @@
-package com.company.Index.Upload;
+package com.company.Index.Uploader;
 
 
-import com.company.Index.Upload.DataHelperClass.SegmentHelper;
+import com.company.Index.DataHelperClass.SegmentHelper;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;

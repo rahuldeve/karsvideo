@@ -1,7 +1,7 @@
 package com.company.ResultData;
 
-import com.company.Index.Upload.DataHelperClass.SegmentHelper;
-import com.company.Index.Upload.DataHelperClass.VideoHelper;
+import com.company.Index.DataHelperClass.SegmentHelper;
+import com.company.Index.DataHelperClass.VideoHelper;
 
 import java.util.*;
 import java.util.stream.Collectors;

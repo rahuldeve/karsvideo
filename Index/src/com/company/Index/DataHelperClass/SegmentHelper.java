@@ -1,4 +1,4 @@
-package com.company.Index.Upload.DataHelperClass;
+package com.company.Index.DataHelperClass;
 
 import java.util.ArrayList;
 import java.util.List;

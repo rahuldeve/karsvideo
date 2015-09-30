@@ -1,7 +1,7 @@
 package com.company.Index.Retriever;
 
-import com.company.Index.Upload.DataHelperClass.SegmentHelper;
-import com.company.Index.Upload.DataHelperClass.VideoHelper;
+import com.company.Index.DataHelperClass.SegmentHelper;
+import com.company.Index.DataHelperClass.VideoHelper;
 import com.mongodb.client.MongoCollection;
 import org.bson.Document;
 

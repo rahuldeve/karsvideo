@@ -2,9 +2,9 @@ package com.company.Index;
 
 import com.company.Index.Retriever.DatabaseRetriever;
 import com.company.Index.Retriever.IndexRetriever;
-import com.company.Index.Upload.BulkUploader;
-import com.company.Index.Upload.DataHelperClass.VideoHelper;
-import com.company.Index.Upload.Uploader;
+import com.company.Index.Uploader.BulkUploader;
+import com.company.Index.DataHelperClass.VideoHelper;
+import com.company.Index.Uploader.Uploader;
 import com.company.ResultData.DataParser;
 import com.company.ResultData.ResultObject;
 import com.mongodb.MongoClient;
@@ -69,7 +69,7 @@ public class IndexService {
             videoCollection.createIndex(new Document("segments.segid",1));
 
 
-            //invoke Upload?
+            //invoke Uploader?
 
         }
 

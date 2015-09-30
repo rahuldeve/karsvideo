@@ -1,4 +1,4 @@
-package com.company.Index.Upload;
+package com.company.Index.Uploader;
 
 import com.mongodb.client.MongoCollection;
 import org.bson.Document;
