@@ -1,4 +1,4 @@
-package com.company.Index.Uploader;
+package com.company.Index.DataHelperClass;
 
 
 import com.company.Index.DataHelperClass.SegmentHelper;
