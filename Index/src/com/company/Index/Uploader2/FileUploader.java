@@ -7,23 +7,23 @@ import com.company.Index.StorageInterfaces.IndexInterface;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
  * Created by rahul on 28/09/15.
  */
-public class SingleFileUploader implements Uploader {
+public class FileUploader implements Uploader {
 
     File uploadFolderPath;
-    Map<String,File> fileMap;
 
     IndexInterface indexInterface;
     DatabaseInterface databaseInterface;
 
-    public SingleFileUploader(IndexInterface indexInterface, DatabaseInterface databaseInterface) {
+    public FileUploader(IndexInterface indexInterface, DatabaseInterface databaseInterface) {
 
-        this.fileMap = new HashMap<>();
         this.databaseInterface = databaseInterface;
         this.indexInterface = indexInterface;
 
@@ -31,22 +31,22 @@ public class SingleFileUploader implements Uploader {
 
 
     @Override
-    //have to add extra functionalities for checking clusterd keyword csv files etc
-    public boolean checkFiles(String path) {
+    //have to add extra functionalities for checking clustered keyword csv files etc
+    public Map<String, File> checkFiles(String path) {
+
+        Map<String, File> fileMap = new HashMap<>();
 
         boolean hasVideo = false;
         boolean hasXML = false;
         boolean hasScript = false;
         boolean hasStatfile = false;
+        boolean hasKeywordCSVFile = false;
 
         uploadFolderPath = new File(path);
 
         //get only files and not folders
-        File files[] = uploadFolderPath.listFiles(new FileFilter() {
-            @Override
-            public boolean accept(File file) {
-                return file.isFile();
-            }
+        File files[] = uploadFolderPath.listFiles( file -> {
+            return file.isFile();
         });
 
 
@@ -83,17 +83,28 @@ public class SingleFileUploader implements Uploader {
                 fileMap.putIfAbsent("segfile", file);
             }
 
+            //check for csv file with keywords
+            if(file.getName().matches(".*csv")){
+                hasKeywordCSVFile = true;
+                fileMap.putIfAbsent("csvfile", file);
+            }
+
 
         }
 
-        return hasScript && hasXML && hasStatfile && hasVideo;
+        if(hasScript && hasXML && hasStatfile && hasVideo && hasKeywordCSVFile)
+            return fileMap;
+        else
+            return null;
     }
 
 
 
-    public void add(String path){
+    public void insertOne(String path){
 
-        if(!checkFiles(path)){
+        Map<String, File> fileMap = checkFiles(path);
+
+        if(fileMap == null){
             System.out.println("files not found !!!!!!!!!!!!");
         }else{
 
@@ -101,15 +112,58 @@ public class SingleFileUploader implements Uploader {
             VideoHelper video = videoDataConsolidator.collectVideoData();
 
             //add to database
-            databaseInterface.add(video);
+            databaseInterface.insertOne(video);
 
             //add to index
+            indexInterface.insertOne(video.videoid,fileMap);
 
 
 
         }
 
     }
+
+
+    public void insertMany(String basePath){
+
+        File baseFolder = new File(basePath);
+        File[] directories = baseFolder.listFiles(File::isDirectory);
+
+        Map<String, Map<String, File>> fileMaps = new HashMap<>();
+
+
+        //there is a better code to do this using mongo batch operation
+        for(File directory : directories) {
+
+            Map<String, File> fileMap = checkFiles(directory.getPath());
+
+            if(fileMap == null){
+                System.out.println("files not found !!!!!!!!!!!!");
+            }else{
+
+                VideoDataConsolidator videoDataConsolidator = new VideoDataConsolidator(fileMap);
+                VideoHelper video = videoDataConsolidator.collectVideoData();
+
+
+                //add to database
+                databaseInterface.insertOne(video);
+
+
+                fileMaps.put(video.videoid, fileMap);
+
+
+
+            }
+
+        }
+
+        //add all together to index
+        indexInterface.insertMany(fileMaps);
+
+
+
+    }
+
 
 
 }
